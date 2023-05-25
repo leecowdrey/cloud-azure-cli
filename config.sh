@@ -4,7 +4,7 @@ PRODUCT="dm"
 PRODUCT_VERSION="2.0.0"
 PRODUCT_VERSION="${PRODUCT_VERSION//./}"
 SPRINT="2208"
-IMAGE_PREFIX="csdm/"
+IMAGE_PREFIX="xxxx/"
 #TAG="2.0.0-2208.rb1"
 TAG="2.0.3-2211.rb23"
 PRODUCT_COMPONENTS=("alarm-endpoint" \
@@ -54,12 +54,12 @@ IS_TERMINAL=false
 
 
 # Azure service principal for automated login - do not change
-# one-off creation using az ad sp create-for-rbac --name CSDM_Deploy --role Contributor --scopes /subscriptions/64afda3c-9596-46e3-b0db-f41586c8cccb
+# one-off creation using az ad sp create-for-rbac --name XXXX_Deploy --role Contributor --scopes /subscriptions/602074cb-7faa-4f50-b6db-8c25b18adadd
 #
 AZ_SP_APPID="7cd6414f-307d-4211-a743-ae8aa8d45e8a"
 AZ_SP_PASSWORD="r~t8Q~KVeMOAmNPbunmbz95TacKJxAeUC1ZuHcYD"
 AZ_SP_TENANT="31472f81-8fe4-49ec-8bc3-fa1c295640d7"
-AZ_SP_DISPLAYNAME="CSDM_Deploy"
+AZ_SP_DISPLAYNAME="XXXX_Deploy"
 #az login --service-principal -u "7cd6414f-307d-4211-a743-ae8aa8d45e8a" -p "r~t8Q~KVeMOAmNPbunmbz95TacKJxAeUC1ZuHcYD" --tenant "31472f81-8fe4-49ec-8bc3-fa1c295640d7"
 
 # do not change these
@@ -68,20 +68,20 @@ CONFIGFILE="$(dirname "$0")/../configs/platform-config.yaml"
 
 # Azure/Customer Site Networking
 #
-#                                                 +-----------+                +----------+
-#                                                 | COMMSCOPE +----------------+ INTERNET |
-#                                                 |    ULS    |                |          |
-#                                                 +-----------+                +-----+----+
+#                                                                              +----------+
+#                                                                              + INTERNET |
+#                                                                              |          |
+#                                                                              +-----+----+
 #                                                                                    |
 # +==================================================================================|=======================================+
 # │ VNET: COMMON_ADDRESS_PREFIX                    +-----------+                     |         +-----------+                 │
-# │                                                | Azure     |                     +---------+ COMMSCOPE |                 │
-# │                                                | Container |                     |         | NFS STORE |                 │
+# │                                                | Azure     |                     +---------+ NFS       |                 │
+# │                                                | Container |                     |         | STORE     |                 │
 # │                                                + Registry  |                     |         +-----------+                 │
 # │                                                +-----+-----+                     |                                       │
 # │                                                      |                           |                                       │
 # │ +----------------------------------------------------+--------+   +-----+   +----+----+    +--------+   +-----+ +------+ │
-# │ | K8S CLUSTER                                                 |   | HUB +---+ BASTION |    | COMMON |   + RMD + + POLT + │
+# │ | K8S CLUSTER                                                 |   | HUB +---+ BASTION |    | COMMON |   + PNF + + VNF  + │
 # │ | +---------------------------+ +---------------------------+ +---+ SUB |   +---------+    | SUBNET |   +--+--+ +--+---+ │
 # │ | | K8S_CLUSTER_SUBNET_PREFIX +-+ K8S_SERVICE_SUBNET_PREFIX | |   | NET |                  |  aka   |      |       |     │
 # │ | +---------------------------+ +---------------------------+ |   | PRE |   +---------+    | (FAKE) |   +--+----------+  │
@@ -151,13 +151,13 @@ K8S_REGISTRY_IP=""
 K8S_REGISTRY_PORT="32000"
 K8S_REGISTRY_SIZE="30Gi"
 
-CSDM_NIC_ETH0_GATEWAY_IP="172.16.0.1"
-CSDM_NIC_ETH0_PRIVATE_IP="172.16.0.7"
-CSDM_NIC_ETH1_PRIVATE_IP="172.16.50.7"
-CSDM_SUBNET_PREFIX="172.16.0.0/20"
+xxxx_NIC_ETH0_GATEWAY_IP="172.16.0.1"
+xxxx_NIC_ETH0_PRIVATE_IP="172.16.0.7"
+xxxx_NIC_ETH1_PRIVATE_IP="172.16.50.7"
+xxxx_SUBNET_PREFIX="172.16.0.0/20"
 
 #
-PRIVATE_DNS_SUFFIX="arrisi.local"
+PRIVATE_DNS_SUFFIX="vendor.local"
 PRIVATE_DNS_ZONE_NAME="${CUSTOMER,,}.${PRIVATE_DNS_SUFFIX}"
 PRIVATE_DNS_LINK_NAME="${CUSTOMER,,}dnslnk"
 #
@@ -183,22 +183,22 @@ AZ_AKS_CSI_PLUGINS="/etc/kubernetes/volumeplugins"
 AZ_AKS_DEFAULT_VERSION=""
 AZ_AKS_DISK_SKU="Standard_LRS"
 AZ_AKS_DISK_TYPE="Linux"
-AZ_AKS_DM_POOL="csdm"
+AZ_AKS_DM_POOL="xxxx"
 AZ_AKS_DM_POOL="${AZ_AKS_DM_POOL// /}"
-AZ_AKS_DM_POOL_NODES=1 # User (CSDM) node pool, 1 for singlenode, 3 for multinode (these are workers)
+AZ_AKS_DM_POOL_NODES=1 # User (xxxx) node pool, 1 for singlenode, 3 for multinode (these are workers)
 AZ_AKS_DM_SC_LOCAL_AUTO_EXPAND="true"
 AZ_AKS_DM_SC_LOCAL_AZ_TYPE="azurefile-csi"
-AZ_AKS_DM_SC_LOCAL_CLASS="csdm-local"
+AZ_AKS_DM_SC_LOCAL_CLASS="xxxx-local"
 AZ_AKS_DM_SC_LOCAL_RECLAIM="Retain" # Retain or Delete
 AZ_AKS_DM_SC_LOCAL_SKU="Premium_LRS"
 AZ_AKS_DM_SC_RWO_AUTO_EXPAND="true"
 AZ_AKS_DM_SC_RWO_AZ_TYPE="azurefile-csi"
-AZ_AKS_DM_SC_RWO_CLASS="csdm-rwo"
+AZ_AKS_DM_SC_RWO_CLASS="xxxx-rwo"
 AZ_AKS_DM_SC_RWO_RECLAIM="Retain" # Retain or Delete
 AZ_AKS_DM_SC_RWO_SKU="Premium_LRS"
 AZ_AKS_DM_SC_RWX_AUTO_EXPAND="true"
 AZ_AKS_DM_SC_RWX_AZ_TYPE="azurefile-csi"
-AZ_AKS_DM_SC_RWX_CLASS="csdm-rwx"
+AZ_AKS_DM_SC_RWX_CLASS="xxxx-rwx"
 AZ_AKS_DM_SC_RWX_RECLAIM="Retain" # Retain or Delete
 AZ_AKS_DM_SC_RWX_SKU="Premium_LRS"
 AZ_AKS_DNS_PREFIX="${CUSTOMER,,}"
@@ -220,7 +220,7 @@ AZ_HELM_WAIT_TIMEOUT="20m0s"
 AZ_RG="${CUSTOMER,,}"
 AZ_RG_ID=""
 AZ_SCOPE="https://management.core.windows.net//.default"
-AZ_SUBSCRIPTION="CSDM" # change to match Azure provisioned account
+AZ_SUBSCRIPTION="xxxx" # change to match Azure provisioned account
 AZ_SUBSCRIPTION_ID=""
 AZ_ZONES="1"
 BASTION_NIC_ETH0="bastioneth0"
@@ -235,7 +235,7 @@ BASTION_VM_NAME="bastion"
 BASTION_OS_AUTO_UPDATE="false"
 BASTION_OS_OFFER="debian-11"
 BASTION_OS_USERNAME="${CUSTOMER,,}"
-BASTION_OS_PASSWORD="${CUSTOMER,,}@Broadbus1" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.RMD_OS_USERNAME="${CUSTOMER,,}"
+BASTION_OS_PASSWORD="${CUSTOMER,,}@s3cr3t00" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.RMD_OS_USERNAME="${CUSTOMER,,}"
 BASTION_OS_PUBLISHER="Debian" 
 BASTION_OS_SKU="11-backports-gen2" 
 BASTION_OS_URN=""
@@ -245,40 +245,40 @@ COMMON_NSG_NAME="commonnsg"
 COMMON_SUBNET="commonsubnet"
 COMMON_VNET="${CUSTOMER,,}vnet"
 
-CSDM_DATA_DISK_NAME="csdm_DataDisk_1"
-CSDM_DATA_DISK_SIZE="256"
-CSDM_EAH_ENABLE="true" # encryption at host
-CSDM_NBI_IP1="172.16.0.7"
-CSDM_NBI_IP2=""
-CSDM_NBI_IP3=""
-CSDM_NBI_PORT="8080"
-CSDM_NBI_VIP=""
-CSDM_NIC_ETH0="csdmeth0"
-CSDM_NIC_ETH0_FQDN=""
-CSDM_NIC_ETH0_PUBLIC_IP=""
-CSDM_NIC_ETH1="csdmeth1"
-CSDM_NODE_TYPE="Standard_D16as_v4" # 16vCPU, 64GiB RAM,cache 200Gb, max disks 32, max nics 8 (8000 bw)
-CSDM_NSD_ID=""
-CSDM_NSG_NAME="k8snsg"
-CSDM_OS_AUTO_UPDATE="false"
-CSDM_OS_OFFER="0001-com-ubuntu-server-focal"
-CSDM_OS_PASSWORD="${CUSTOMER,,}@Broadbus1" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.RMD_OS_USERNAME="${CUSTOMER,,}"
-CSDM_OS_PREPARE="csdm_prepare.sh"
-CSDM_OS_PUBLISHER="Canonical"
-CSDM_OS_SKU="20_04-lts-gen2"
-CSDM_OS_URN=""
-CSDM_OS_URN=""
-CSDM_OS_USERNAME="${CUSTOMER,,}"
-CSDM_SBI_IP1="172.16.50.7"
-CSDM_SBI_IP2=""
-CSDM_SBI_IP3=""
-CSDM_SBI_KAFKA_SECURE_PORT="9093"
-CSDM_SBI_KAFKA_UNSECURE_PORT="9092"
-CSDM_SBI_NETCONF_CALLHOME_SSH_PORT="4334"
-CSDM_SBI_NETCONF_CALLHOME_TLS_PORT="4335"
-CSDM_SBI_SYSLOG_PORT="514"
-CSDM_SBI_VIP=""
-CSDM_VM_NAME="csdm"
+xxxx_DATA_DISK_NAME="xxxx_DataDisk_1"
+xxxx_DATA_DISK_SIZE="256"
+xxxx_EAH_ENABLE="true" # encryption at host
+xxxx_NBI_IP1="172.16.0.7"
+xxxx_NBI_IP2=""
+xxxx_NBI_IP3=""
+xxxx_NBI_PORT="8080"
+xxxx_NBI_VIP=""
+xxxx_NIC_ETH0="xxxxeth0"
+xxxx_NIC_ETH0_FQDN=""
+xxxx_NIC_ETH0_PUBLIC_IP=""
+xxxx_NIC_ETH1="xxxxeth1"
+xxxx_NODE_TYPE="Standard_D16as_v4" # 16vCPU, 64GiB RAM,cache 200Gb, max disks 32, max nics 8 (8000 bw)
+xxxx_NSD_ID=""
+xxxx_NSG_NAME="k8snsg"
+xxxx_OS_AUTO_UPDATE="false"
+xxxx_OS_OFFER="0001-com-ubuntu-server-focal"
+xxxx_OS_PASSWORD="${CUSTOMER,,}@s3cr3t00" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.RMD_OS_USERNAME="${CUSTOMER,,}"
+xxxx_OS_PREPARE="xxxx_prepare.sh"
+xxxx_OS_PUBLISHER="Canonical"
+xxxx_OS_SKU="20_04-lts-gen2"
+xxxx_OS_URN=""
+xxxx_OS_URN=""
+xxxx_OS_USERNAME="${CUSTOMER,,}"
+xxxx_SBI_IP1="172.16.50.7"
+xxxx_SBI_IP2=""
+xxxx_SBI_IP3=""
+xxxx_SBI_KAFKA_SECURE_PORT="9093"
+xxxx_SBI_KAFKA_UNSECURE_PORT="9092"
+xxxx_SBI_NETCONF_CALLHOME_SSH_PORT="4334"
+xxxx_SBI_NETCONF_CALLHOME_TLS_PORT="4335"
+xxxx_SBI_SYSLOG_PORT="514"
+xxxx_SBI_VIP=""
+xxxx_VM_NAME="xxxx"
 
 HUB_NIC_ETH0="hubeth0"
 HUB_NIC_ETH1="hubeth1"
@@ -314,7 +314,7 @@ NFS_NSG_NAME="nfsnsg"
 NFS_OS_AUTO_UPDATE="false"
 NFS_OS_OFFER="debian-11" 
 NFS_OS_USERNAME="commscope"
-NFS_OS_PASSWORD="comm@Broadbus1" 
+NFS_OS_PASSWORD="comm@s3cr3t00" 
 NFS_OS_PUBLISHER="Debian" 
 NFS_OS_SKU="11-backports-gen2" 
 NFS_OS_URN=""
@@ -340,7 +340,7 @@ POLT_OLT_BULK_RELEASE="olt_blkrls_1.0.0.sprint${POLT_SIM_VERSION}.tar.gz"
 POLT_ONUS="2"
 POLT_OS_AUTO_UPDATE="false"
 POLT_OS_OFFER="UbuntuServer" # 0001-com-ubuntu-minimal-focal"
-POLT_OS_PASSWORD="${CUSTOMER,,}@Broadbus1"
+POLT_OS_PASSWORD="${CUSTOMER,,}@s3cr3t00"
 POLT_OS_PUBLISHER="Canonical"
 POLT_OS_SKU="18_04-daily-lts-gen2"
 POLT_OS_URN=""
@@ -379,7 +379,7 @@ RMD_NSD_ID=""
 RMD_NSG_NAME="spokensg"
 RMD_OS_AUTO_UPDATE="false"
 RMD_OS_OFFER="debian-11" # 0001-com-ubuntu-minimal-focal"
-RMD_OS_PASSWORD="${CUSTOMER,,}@Broadbus1" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.
+RMD_OS_PASSWORD="${CUSTOMER,,}@s3cr3t00" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.
 RMD_OS_PUBLISHER="Debian" # Canonical
 RMD_OS_SKU="11-backports-gen2" # minimal-20_04-lts-gen2
 RMD_OS_URN=""
@@ -404,7 +404,7 @@ SSH_PORT=22
 VPN_EAH_ENABLE="true" # encryption at host
 VPN_OS_AUTO_UPDATE="false"
 VPN_OS_OFFER="vyos-1-2-lts-on-azure"
-VPN_OS_PASSWORD="${CUSTOMER,,}@Broadbus1" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.
+VPN_OS_PASSWORD="${CUSTOMER,,}@s3cr3t00" # The password length must be between 12 and 72. Password must have the 3 of the following: 1 lower case character, 1 upper case character, 1 number and 1 special character.
 VPN_OS_PUBLISHER="sentriumsl"
 VPN_OS_SKU="vyos-1-3" # Debian 11 Bullseye generation-2
 VPN_OS_URN=""
