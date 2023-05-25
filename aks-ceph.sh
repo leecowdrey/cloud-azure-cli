@@ -3,7 +3,7 @@
 ### change these
 CUSTOMER="telco" # use abbrevation, initials or something short
 PRODUCT_VERSION="2.0"
-AZ_SUBSCRIPTION="CSDM" # change to match Azure provisioned account
+AZ_SUBSCRIPTION="XXXX" # change to match Azure provisioned account
 AZ_SCOPE="https://management.core.windows.net//.default"
 AZ_REGION="uksouth"
 AZ_LANG="en_GB"
