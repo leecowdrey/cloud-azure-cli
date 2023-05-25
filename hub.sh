@@ -30,7 +30,7 @@ set service ssh port ${SSH_PORT}
 set system time-zone '${AZ_TIMEZONE}'
 set system ipv6 disable
 delete system login user vyos
-set system login banner post-login 'Unauthorized access is prohibited - parts Copyright © 2022 CommScope, Inc.'
+set system login banner post-login 'Unauthorized access is prohibited'
 commit
 save
 exit
