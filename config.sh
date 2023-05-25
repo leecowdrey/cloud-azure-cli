@@ -38,7 +38,7 @@ PRODUCT_COMPONENTS=("alarm-endpoint" \
                     "vflow" \
                     "web-server" \
                     "worker")
-RELEASE_ARCHIVE="servassure-domain-manager-platform-${TAG}.tgz"
+RELEASE_ARCHIVE="platform-${TAG}.tgz"
 AZ_LANG="en_GB"
 AZ_REGION="uksouth"
 AZ_TIMEZONE="Europe/London"
