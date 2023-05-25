@@ -74,7 +74,7 @@ EOF5
 fi
 
 # Fix additional custom IP route for destination spoke site as cant set via cloudinit
-# from csdm, polt (user:root,password:root) can be verified via: ssh -p 10830 root@172.16.49.12 -s netconf
+# from xxxx, polt (user:root,password:root) can be verified via: ssh -p 10830 root@172.16.49.12 -s netconf
 #
 cat <<EOF6 > /etc/systemd/system/route.service
 [Unit]
@@ -102,7 +102,7 @@ systemctl status route.service
 echo -e "${USERNAME,,}\tALL=(ALL:ALL) NOPASSWD:ALL" /etc/sudoers.d/${USERNAME,,}
 chmod 440 /etc/sudoers.d/${USERNAME,,}
 
-# CSDM prereq
+# XXXX prereq
 groupadd -f microk8s
 usermod -a -G microk8s ${USERNAME}
 
