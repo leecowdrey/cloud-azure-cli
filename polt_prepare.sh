@@ -1,6 +1,6 @@
 #!/bin/bash
 [[ $(id -u) -ne 0 ]] && exit 1
-USERNAME="${1:-ponuser}"
+USERNAME="${1:-vendor}"
 NLG="${2:-en_GB}"
 NTZ="${3:-Europe/London}"
 SSHP=${4:-22}
