@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 source config.sh
 source common.sh
 alert "networks"
@@ -156,17 +155,17 @@ step3() {
     --output none \
     --only-show-errors && \
   az network nic create --resource-group "${AZ_RG}" \
-    --name "${CSDM_NIC_ETH0}" \
+    --name "${XXXX_NIC_ETH0}" \
     --subnet "${K8S_CLUSTER_SUBNET_NAME}" \
     --location "${AZ_REGION}" \
     --vnet-name "${COMMON_VNET}" \
-    --network-security-group "${CSDM_NSG_NAME}" \
+    --network-security-group "${XXXX_NSG_NAME}" \
     --private-ip-address-version "${IP_VERSION}" \
     --ip-forwarding true \
     --output none \
     --only-show-errors && \
   az network nic create --resource-group "${AZ_RG}" \
-    --name "${CSDM_NIC_ETH1}" \
+    --name "${XXXX_NIC_ETH1}" \
     --subnet "${HUB_SUBNET_NAME}" \
     --location "${AZ_REGION}" \
     --vnet-name "${COMMON_VNET}" \
@@ -184,7 +183,7 @@ step4() {
   doing "- ${FUNCNAME[0]} IP Addressing/Network Assignment"
   local RETVAL=0
   local BASTION_DNS_PREFIX=""
-  local CSDM_DNS_PREFIX=""
+  local XXXX_DNS_PREFIX=""
   generate_dns_prefix BASTION_DNS_PREFIX 16
   az network public-ip create \
    --name "${BASTION_VM_NAME}" \
@@ -195,14 +194,14 @@ step4() {
    --dns-name "${BASTION_DNS_PREFIX}" \
    --output none \
    --only-show-errors && \
-  generate_dns_prefix CSDM_DNS_PREFIX 16
+  generate_dns_prefix XXXX_DNS_PREFIX 16
   az network public-ip create \
-   --name "${CSDM_VM_NAME}" \
+   --name "${XXXX_VM_NAME}" \
    --resource-group "${AZ_RG}" \
    --location "${AZ_REGION}" \
    --sku "${IP_SKU}" \
    --version "${IP_VERSION}" \
-   --dns-name "${CSDM_DNS_PREFIX}" \
+   --dns-name "${XXXX_DNS_PREFIX}" \
    --output none \
    --only-show-errors && \
   az network nic ip-config update \
@@ -265,16 +264,16 @@ step4() {
   az network nic ip-config update \
    --name ipconfig1 \
    --resource-group "${AZ_RG}" \
-   --nic-name "${CSDM_NIC_ETH0}" \
-   --public-ip-address "${CSDM_VM_NAME}" \
-   --private-ip-address "${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --nic-name "${XXXX_NIC_ETH0}" \
+   --public-ip-address "${XXXX_VM_NAME}" \
+   --private-ip-address "${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --output none \
    --only-show-errors && \
   az network nic ip-config update \
    --name ipconfig1 \
    --resource-group "${AZ_RG}" \
-   --nic-name "${CSDM_NIC_ETH1}" \
-   --private-ip-address "${CSDM_NIC_ETH1_PRIVATE_IP}" \
+   --nic-name "${XXXX_NIC_ETH1}" \
+   --private-ip-address "${XXXX_NIC_ETH1_PRIVATE_IP}" \
    --output none \
    --only-show-errors
   RETVAL=$?
@@ -378,12 +377,12 @@ step5() {
   get_next_nsg_priority "${K8S_NSG_NAME}" PRIORITY && \
   az network nsg rule create --resource-group "${AZ_RG}" \
    --nsg-name "${K8S_NSG_NAME}" \
-   --name "Ssh-${CSDM_VM_NAME}-${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --name "Ssh-${XXXX_VM_NAME}-${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --direction "Inbound" \
    --priority ${PRIORITY} \
    --source-address-prefixes '*' \
    --source-port-ranges '*' \
-   --destination-address-prefixes "${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --destination-address-prefixes "${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --destination-port-ranges ${SSH_PORT} \
    --protocol "Tcp" \
    --access "Allow" \
@@ -517,12 +516,12 @@ step5() {
   get_next_nsg_priority "${K8S_NSG_NAME}" PRIORITY && \
   az network nsg rule create --resource-group "${AZ_RG}" \
    --nsg-name "${K8S_NSG_NAME}" \
-   --name "DhcpClient-${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --name "DhcpClient-${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --direction "Inbound" \
    --priority ${PRIORITY} \
    --source-address-prefixes '*' \
    --source-port-ranges '*' \
-   --destination-address-prefixes "${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --destination-address-prefixes "${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --destination-port-ranges "67-68" \
    --protocol "Udp" \
    --access "Allow" \
@@ -544,13 +543,13 @@ step5() {
    --only-show-errors && \
   get_next_nsg_priority "${K8S_NSG_NAME}" PRIORITY && \
   az network nsg rule create --resource-group "${AZ_RG}" \
-   --nsg-name "${CSDM_NSG_NAME}" \
-   --name "DhcpClient-${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --nsg-name "${XXXX_NSG_NAME}" \
+   --name "DhcpClient-${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --direction "Inbound" \
    --priority ${PRIORITY} \
    --source-address-prefixes '*' \
    --source-port-ranges '*' \
-   --destination-address-prefixes "${CSDM_NIC_ETH0_PRIVATE_IP}" \
+   --destination-address-prefixes "${XXXX_NIC_ETH0_PRIVATE_IP}" \
    --destination-port-ranges "67-68" \
    --protocol "Udp" \
    --access "Allow" \
@@ -694,15 +693,15 @@ step5() {
    --only-show-errors && \
   # HTTPS real Internet to CSDM VM
   for ((I = 0; I < ${#PERMITTED_WAN_IP[@]}; ++I)); do
-	  get_next_nsg_priority "${CSDM_NSG_NAME}" PRIORITY && \
+	  get_next_nsg_priority "${XXXX_NSG_NAME}" PRIORITY && \
 	  az network nsg rule create --resource-group "${AZ_RG}" \
-	   --nsg-name "${CSDM_NSG_NAME}" \
-	   --name "Public-Https-${CSDM_VM_NAME}-${PERMITTED_WAN_IP[$I]}-${CSDM_NIC_ETH0_PRIVATE_IP}" \
+	   --nsg-name "${XXXX_NSG_NAME}" \
+	   --name "Public-Https-${XXXX_VM_NAME}-${PERMITTED_WAN_IP[$I]}-${XXXX_NIC_ETH0_PRIVATE_IP}" \
 	   --direction "Inbound" \
 	   --priority ${PRIORITY} \
 	   --source-address-prefixes "${PERMITTED_WAN_IP[$I]}" \
 	   --source-port-ranges '*' \
-	   --destination-address-prefixes "${CSDM_NIC_ETH0_PRIVATE_IP}" \
+	   --destination-address-prefixes "${XXXX_NIC_ETH0_PRIVATE_IP}" \
 	   --destination-port-ranges 443 \
 	   --protocol "Tcp" \
 	   --access "Allow" \
