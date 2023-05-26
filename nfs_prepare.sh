@@ -42,9 +42,5 @@ usermod -aG docker ${USERNAME}
 mkdir -p /home/${USERNAME}/csdm /home/${USERNAME}/polt /home/${USERNAME}/rmd /home/${USERNAME}/backup
 chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/csdm /home/${USERNAME}/polt /home/${USERNAME}/rmd /home/${USERNAME}/backup
 
-# fix motd
-echo "Unauthorized access is prohibited - parts Copyright © 2022 CommScope, Inc." > /etc/update-motd.d/00-commscope-banner
-chmod 444 /etc/update-motd.d/00-commscope-banner
-
 #
 exit

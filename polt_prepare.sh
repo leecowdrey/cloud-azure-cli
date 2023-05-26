@@ -163,9 +163,5 @@ chown labuser:${USERNAME} /home/labuser
 chmod 775 /home/labuser
 [[ -d /persist ]] && ( mkdir -p /persist/staging && chown ${USERNAME}:${USERNAME} /persist/staging)
 
-# fix motd
-echo "Unauthorized access is prohibited - parts Copyright © 2022 CommScope, Inc." > /etc/update-motd.d/00-commscope-banner
-chmod 444 /etc/update-motd.d/00-commscope-banner
-
 #
 exit

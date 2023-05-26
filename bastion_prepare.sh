@@ -90,9 +90,5 @@ su ${USERNAME} -c "ansible-galaxy collection install community.crypto"
 su ${USERNAME} -c "ansible-galaxy collection install azure.azcollection"
 su ${USERNAME} -c "pip3 install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt"
 
-# fix motd
-echo "Unauthorized access is prohibited - parts Copyright © 2022 CommScope, Inc." > /etc/update-motd.d/00-commscope-banner
-chmod 444 /etc/update-motd.d/00-commscope-banner
-
 #
 exit
