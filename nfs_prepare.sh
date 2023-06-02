@@ -39,8 +39,8 @@ apt-get -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 usermod -aG docker ${USERNAME}
 
 # user environment prep
-mkdir -p /home/${USERNAME}/csdm /home/${USERNAME}/polt /home/${USERNAME}/rmd /home/${USERNAME}/backup
-chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/csdm /home/${USERNAME}/polt /home/${USERNAME}/rmd /home/${USERNAME}/backup
+mkdir -p /home/${USERNAME}/xxxx /home/${USERNAME}/vnf /home/${USERNAME}/pnf /home/${USERNAME}/backup
+chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/xxxx /home/${USERNAME}/vnf /home/${USERNAME}/pnf /home/${USERNAME}/backup
 
 #
 exit
