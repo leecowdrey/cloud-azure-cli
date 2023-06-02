@@ -160,26 +160,19 @@ step6() {
   xxxx_remote_cli "mkdir -p ~/bin ; curl -sLO https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && mv -f yq_linux_amd64 ~/bin/azureyq && chmod 755 ~/bin/azureyq" && \
   xxxx_remote_cli "cp -f ~/platform/ansible/configs/platform-config.yaml.blank_singlehost ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.dmhost_user = \"${XXXX_OS_USERNAME,,}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.dmhost_user = \"${XXXX_OS_USERNAME,,}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.dmhost_group = \"${XXXX_OS_USERNAME,,}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.dmhosts.host1.dmhost_ip = \"${XXXX_NIC_ETH0_PRIVATE_IP}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.number_of_hosts = ${AZ_AKS_DM_POOL_NODES}' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.northbound_vip = \"${XXXX_NIC_ETH0_PRIVATE_IP}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.southbound_vip = \"${XXXX_NIC_ETH1_PRIVATE_IP}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.pv_backing_store = \"/backing_store\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.snap_autoupdate = false' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.prometheus_enable = false' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.disable_unattended_upgrades = true' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.providesupportservices = false' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.rmd_subnets = \"${SPOKE_SUBNET_PREFIX}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.external_pv_rwo = \"${AZ_AKS_DM_SC_RWO_CLASS}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.external_pv_rwx = \"${AZ_AKS_DM_SC_RWX_CLASS}\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.k8s_dns_servers = \"8.8.8.8,8.8.4.4\"' ~/platform/ansible/configs/platform-config.yaml" && \
   xxxx_remote_cli "~/bin/azureyq -i '.local_pv = \"${AZ_AKS_DM_SC_LOCAL_CLASS}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.external_backup_host = \"${BASTION_NIC_ETH0_PUBLIC_IP}\"' ~/platform/ansible/configs/platform-config.yaml "&& \
-  xxxx_remote_cli "~/bin/azureyq -i '.external_backup_user = \"${NFS_OS_USERNAME}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.external_backup_dir = \"${NFS_BACKUP_PATH}\"' ~/platform/ansible/configs/platform-config.yaml" && \
-  xxxx_remote_cli "~/bin/azureyq -i '.external_backup_key = \"/home/${XXXX_OS_USERNAME}/.ssh/${NFS_BACKUP_KEY}\"' ~/platform/ansible/configs/platform-config.yaml"
+  xxxx_remote_cli "~/bin/azureyq -i '.backup_host = \"${BASTION_NIC_ETH0_PUBLIC_IP}\"' ~/platform/ansible/configs/platform-config.yaml "&& \
+  xxxx_remote_cli "~/bin/azureyq -i '.backup_user = \"${NFS_OS_USERNAME}\"' ~/platform/ansible/configs/platform-config.yaml" && \
+  xxxx_remote_cli "~/bin/azureyq -i '.backup_dir = \"${NFS_BACKUP_PATH}\"' ~/platform/ansible/configs/platform-config.yaml" && \
+  xxxx_remote_cli "~/bin/azureyq -i '.backup_key = \"/home/${XXXX_OS_USERNAME}/.ssh/${NFS_BACKUP_KEY}\"' ~/platform/ansible/configs/platform-config.yaml"
   RETVAL=$?
   [[ ${RETVAL} -eq 0 ]] && success "- ${FUNCNAME[0]}" || error "- fail ${FUNCNAME[0]}"
   return ${RETVAL}
@@ -190,13 +183,7 @@ step6() {
 step7() {
   doing "- ${FUNCNAME[0]} Platform Installation"
   local RETVAL=0
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step1.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step2.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step3.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step4.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step5.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step6.sh" && \
-  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./step7.sh"
+  xxxx_remote_cli "export PATH=\$PATH:/snap/bin ; cd ~/platform/ansible/install_scripts ; ./install.sh"
   RETVAL=$?
   [[ ${RETVAL} -eq 0 ]] && success "- ${FUNCNAME[0]}" || error "- fail ${FUNCNAME[0]}"
   return ${RETVAL}
