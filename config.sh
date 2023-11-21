@@ -56,9 +56,9 @@ IS_TERMINAL=false
 # Azure service principal for automated login - do not change
 # one-off creation using az ad sp create-for-rbac --name XXXX_Deploy --role Contributor --scopes /subscriptions/602074cb-7faa-4f50-b6db-8c25b18adadd
 #
-AZ_SP_APPID="7cd6414f-307d-4211-a743-ae8aa8d45e8a"
-AZ_SP_PASSWORD="r~t8Q~KVeMOAmNPbunmbz95TacKJxAeUC1ZuHcYD"
-AZ_SP_TENANT="31472f81-8fe4-49ec-8bc3-fa1c295640d7"
+AZ_SP_APPID="accd6085-7120-49bc-8085-d43a8df4300f" # dummy
+AZ_SP_PASSWORD="eff408f6-6afb-405d-8fb0-1a35dc323fe9" # dummy
+AZ_SP_TENANT="ee263cd9-c9db-466e-8c56-fde1797691be" # dummy
 AZ_SP_DISPLAYNAME="XXXX_Deploy"
 #az login --service-principal -u "7cd6414f-307d-4211-a743-ae8aa8d45e8a" -p "r~t8Q~KVeMOAmNPbunmbz95TacKJxAeUC1ZuHcYD" --tenant "31472f81-8fe4-49ec-8bc3-fa1c295640d7"
 
