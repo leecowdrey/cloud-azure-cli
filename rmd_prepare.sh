@@ -36,8 +36,8 @@ hostnamectl status
 hostname ${FQDN}
 
 # fix motd
-echo "Unauthorized access is prohibited - parts Copyright © 2022 CommScope, Inc." > /etc/update-motd.d/00-commscope-banner
-chmod 444 /etc/update-motd.d/00-commscope-banner
+echo "Unauthorized access is prohibited - parts Copyright © 2999 vendor, Inc." > /etc/update-motd.d/00-vendor-banner
+chmod 444 /etc/update-motd.d/00-vendor-banner
 
 #
 exit
