@@ -108,7 +108,7 @@ fi
 
 # POLT dependencies
 useradd --home-dir /home/labuser --groups ${USERNAME} --create-home --shell /sbin/nologin labuser
-echo "labuser:Broadbus1"|chpasswd
+echo "labuser:password"|chpasswd
 usermod -L labuser
 
 # Python 3.8 is required and not the default in UbuntuServer 18.04
